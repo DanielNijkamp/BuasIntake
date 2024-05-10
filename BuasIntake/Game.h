@@ -1,0 +1,22 @@
+﻿#pragma once
+#include <SFML/Graphics/RenderWindow.hpp>
+#include "Collision/Screenbounds.h"
+
+/* Instead of initializing our entire game inside the main
+ * We create it inside a method in this class. where we can recreate our entire game multiple times
+ * We also re-use the same window created inside the ctor.
+ * Since all objects in our game are designed to be created and destroyed at the same time we simply create the game agian.
+ * Any persistent systems should live outside of the game.
+ */
+
+class Game final
+{
+public:
+    explicit Game(unsigned int windowWidth, unsigned int windowHeight);
+    
+    void Run();
+
+private:
+    sf::RenderWindow window;
+    Screenbounds screenbounds;
+};
