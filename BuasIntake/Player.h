@@ -37,8 +37,19 @@ public:
 		steerStrength(steerStrength),
 		input(input)
 	{
-		Init();
 		Car::UpdatePositions(position);
+
+		this->input.SubscribeToContinuousKey(sf::Keyboard::Key::W,
+		[this] { Accelerate(this->accelerationStep); });
+		
+		this->input.SubscribeToContinuousKey(sf::Keyboard::Key::S,
+		[this] { Accelerate(-this->accelerationStep); });
+		
+		this->input.SubscribeToContinuousKey(sf::Keyboard::Key::A,
+		[this] { Steer( -this->steerStrength); });
+		
+		this->input.SubscribeToContinuousKey(sf::Keyboard::Key::D,
+		[this] { Steer( this->steerStrength); });
 	}
 
 	void Update(float deltaTime) override;
@@ -47,11 +58,10 @@ public:
 	
 	Event<> onSober; //fires once drunkenness hits minDrunkenness, acts as lose condition
 	sf::Vector2f prevPosition;
-
-	//we can also define a get method but idk about if readonly is possible
+	
 	float drunkenness;
 private:
-	void Init();
+	
 	
 	void Steer(float direction);
 	void Move(float deltaTime);
@@ -65,11 +75,11 @@ private:
 	
 	const float swerveStrength; //how much the player will swerve left and right
 	const float soberStep; //by how much reduce drunkenness each step
-	const float swerveResistance; //how much resistance the player's movement has agianst the swerving
+	const float swerveResistance; //how much resistance the player's movement has against the swerving
 	
 	//floats used for movement
 	float velocity = 0.0f;
-	float& acceleration; //this float is modifier externally and the player only reads it
+	float& acceleration;
 	float minAcceleration;
 	float maxAcceleration;
 	float accelerationStep;

@@ -1,5 +1,16 @@
 ﻿#include "CollisionSystem.h"
 
+
+/* Collision handling:
+ * Because our game is player-centric we only need to check if the player is colliding with something else
+ * We also disable checking the collision if an object is offscreen.
+ * Currently, this method is checking if any onscreen object is colliding with the player.
+ *
+ * Our Collidable can also be of 2 types. a normal collider or be registered as a trigger
+ * If it's a trigger then we don't need to resolve collision else we do.
+ * With both we also call the appropriate events, so we can loosely couple logic on collision.
+ */
+
 void CollisionSystem::CheckCollision() const
 {
     sf::Vector2f movement = player->aabb.position - player->prevPosition;
@@ -32,6 +43,10 @@ void CollisionSystem::CheckCollision() const
     }
 }
 
+/* A derived class implementing Collidable might have logic where it might update on the screen its position.
+ * If this happens we also need to update the AABB's position and if needed the size.
+ */
+
 void CollisionSystem::UpdateCollisions() const
 {
     player->prevPosition = player->aabb.position;
@@ -48,6 +63,11 @@ bool CollisionSystem::IsInsideScreen(const std::shared_ptr<Collidable>& collidab
     return (collidable->aabb.position.x >= 0 && collidable->aabb.position.x <= screenbounds.width
         && collidable->aabb.position.y >= 0 && collidable->aabb.position.y <= screenbounds.height);
 }
+
+
+/* Here again we only resolve the collision of the player.
+ * We never have that 2 objects collide with each other only the player with something else.
+ */
 
 void CollisionSystem::ResolveOverlap(const std::shared_ptr<Collidable>& target) const
 {

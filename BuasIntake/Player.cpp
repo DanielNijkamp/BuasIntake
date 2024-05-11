@@ -1,7 +1,5 @@
 #include "Player.h"
 
-#include <iostream>
-
 void Player::Update(float deltaTime)
 {
     velocity = (velocity < 0.01 && velocity > -0.01) ? velocity = 0 : velocity *= 0.90f;
@@ -79,19 +77,4 @@ void Player::Rotate(float deltaTime)
     float newRotation = ((1 - timeFactor) * currentRotation + timeFactor * desiredRotation);
     
     sprite.setRotation(newRotation);
-}
-
-void Player::Init()
-{
-    this->input.SubscribeToContinuousKey(sf::Keyboard::Key::W,
-    [this] { Accelerate(accelerationStep); });
-		
-    this->input.SubscribeToContinuousKey(sf::Keyboard::Key::S,
-    [this] { Accelerate(-accelerationStep); });
-		
-    this->input.SubscribeToContinuousKey(sf::Keyboard::Key::A,
-    [this] { Steer( -steerStrength); });
-		
-    this->input.SubscribeToContinuousKey(sf::Keyboard::Key::D,
-    [this] { Steer( steerStrength); });
 }
