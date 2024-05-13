@@ -18,7 +18,7 @@ void Input::SubscribeToContinuousKey(Key key, const Event<>::Callback& callback)
 }
 void Input::ProcessInputs()
 {
-    if (!canProcessInputs) {
+    if (!canProcessInputs || !focussed) {
         return;
     }
     

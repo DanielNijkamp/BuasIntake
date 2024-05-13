@@ -15,10 +15,13 @@
 #include "Systems/Input.h"
 #include "Systems/SpriteLoader.h"
 
+enum class GameState { Running, Restart, Quit};
+
 Game::Game(unsigned int windowWidth, unsigned int windowHeight) :
     window(sf::VideoMode(windowWidth, windowHeight), "Fun Driving Sim",
            sf::Style::Close),
-    screenbounds(windowWidth,windowHeight)
+    spriteLoader("./Assets/"),
+    screenbounds(windowWidth, windowHeight)
 {
     window.setFramerateLimit(60); //TODO: check if uncapping doesnt break systems
 
@@ -27,18 +30,20 @@ Game::Game(unsigned int windowWidth, unsigned int windowHeight) :
         std::cerr << "Failed to create window!" << '\n';
         throw std::runtime_error("Failed to create window!");
     }
+
+    srand(static_cast<unsigned>(time(0)));
 }
 
 void Game::Run()
 {
 #pragma region Init
-    srand(static_cast<unsigned>(time(nullptr)));
-    
-    SpriteLoader spriteLoader("./Assets/"); 
-    Input input;
-    
-#pragma endregion Init
 
+    tgui::Gui gui;
+    gui.setWindow(window);
+    GameState gameState = GameState::Running;
+
+#pragma endregion Init
+    
 #pragma region ScrollSystem
     
     bool canScroll = true; //binding bool that toggles all scroll systems.
@@ -64,11 +69,6 @@ void Game::Run()
         50,0,100,
         6, 5, 1);
 
-    player->onSober.Subscribe( [&]
-    {
-        std::cout << "Is Sober" << '\n';
-        canScroll = false;
-    });
 
 #pragma endregion Player
 
@@ -105,6 +105,8 @@ void Game::Run()
     roadSystem->AddActive({road1});
     roadSystem->AddInactive({road2, road3});
 
+    roadSystem->canUpdate = true;
+
 #pragma endregion Road
 
 #pragma region Carspawner
@@ -116,17 +118,12 @@ void Game::Run()
     auto car3 = std::make_shared<Car>(storePos,spriteLoader.LoadSprite("car (3).png"));
     
     carSpawner->AddInactive({car1,car2, car3});
-    carSpawner->onCollision.Subscribe([&]
-    {
-        std::cout << "Bro lost the game L + ratio" << '\n';
-        canScroll = false;
-    });
 
 #pragma endregion Carspawner
 
 #pragma region BottleSpawner
 
-    auto bottleSpawner = std::make_shared<BottleSpawner>(screenbounds, canScroll, acceleration, startPos, endPos, storePos, 250, 1, 4, 45, 85);
+    auto bottleSpawner = std::make_shared<BottleSpawner>(screenbounds, canScroll, acceleration, startPos, endPos, storePos, 100, 1, 4, 45, 85);
     
     auto bottle1 = std::make_shared<Bottle>(storePos,spriteLoader.LoadSprite("bottle.png"));
     auto bottle2 = std::make_shared<Bottle>(storePos,spriteLoader.LoadSprite("bottle.png"));
@@ -141,20 +138,108 @@ void Game::Run()
 #pragma endregion BottleSpawner
 
 #pragma region Systems
-
-    //initialize all systems with the necessary objects to iterate on
     
     const RenderSystem renderSystem({road1, road2, road3, player, leftBarrier, rightBarrier, car1, car2, car3, bottle1, bottle2, bottle3});
     const FixedUpdateSystem fixedUpdateSystem({roadSystem, carSpawner, bottleSpawner, player});
     const CollisionSystem collisionSystem({leftBarrier, rightBarrier, car1, car2, car3, bottle1, bottle2, bottle3},screenbounds, player);
 
-#pragma endregion Game
+#pragma endregion Systems
+
+#pragma region UI
+    
+    tgui::Theme::setDefault("./Assets/Themes/TransparentGrey.txt");
+
+    auto mainMenu = tgui::Panel::create();
+    auto deathScreen = tgui::Panel::create();
+    auto winScreen = tgui::Panel::create();
+    auto hud = tgui::Panel::create();
+
+    mainMenu->getRenderer()->setBackgroundColor(sf::Color::Transparent);
+    deathScreen->getRenderer()->setBackgroundColor(sf::Color::Transparent);
+    winScreen->getRenderer()->setBackgroundColor(sf::Color::Transparent);
+    hud->getRenderer()->setBackgroundColor(sf::Color::Transparent);
+    
+    mainMenu->loadWidgetsFromFile("./Assets/UI/mainMenu.txt");
+    deathScreen->loadWidgetsFromFile("./Assets/UI/deathScreen.txt");
+    winScreen->loadWidgetsFromFile("./Assets/UI/winScreen.txt");
+    hud->loadWidgetsFromFile("./Assets/UI/hud.txt");
+    
+    gui.add(mainMenu);
+    gui.add(deathScreen);
+    gui.add(winScreen);
+    gui.add(hud);
+
+    roadSystem->canUpdate = true;
+    player->canUpdate = true;
+
+    //Play button
+    auto playButton = gui.get<tgui::Button>("Play Button");
+    playButton->onPress([&]
+    {
+        input.canProcessInputs = true;
+        
+        player->canUpdate = true;
+        player->canMove = true;
+        player->canCheckDrunkenness = true;
+        
+        bottleSpawner->canUpdate = true;
+        carSpawner->canUpdate = true;
+        
+        mainMenu->setVisible(false);
+        hud->setVisible(true);
+    });
+
+    auto restartButton = deathScreen->get<tgui::Button>("Restart Button");
+    auto quitButton = deathScreen->get<tgui::Button>("Quit Button");
+    
+    restartButton->onClick([&]
+    {
+        gameState = GameState::Restart;
+    });
+    
+    quitButton->onClick([&]
+    {
+        gameState = GameState::Quit;
+    });
+    
+    //Drunkenness bar
+    auto drunkennessBar = gui.get<tgui::ProgressBar>("DrunkennessBar");
+    player->drunkennessUpdated.Subscribe( [&](float drunkenness)
+    {
+       drunkennessBar->setValue(drunkenness);
+    });
+    
+    deathScreen->setVisible(false);
+    winScreen->setVisible(false);
+    hud->setVisible(false);
+
+    player->onSober.Subscribe( [&]
+    {
+        canScroll = false;
+        input.canProcessInputs = false;
+        player->canMove = false;
+        player->canCheckDrunkenness = false;
+        deathScreen->setVisible(true);
+        hud->setVisible(false);
+    });
+    
+    carSpawner->onCollision.Subscribe([&]
+    {
+        canScroll = false;
+        input.canProcessInputs = false;
+        player->canMove = false;
+        player->canCheckDrunkenness = false;
+        deathScreen->setVisible(true);
+        hud->setVisible(false);
+    });
+
+#pragma endregion UI
 
 #pragma region GameLoop
 
     sf::Clock clock;
     
-    while (window.isOpen()){
+    while (window.isOpen() && gameState == GameState::Running){
 
         sf::Time elapsed = clock.restart();
         float deltaTime = elapsed.asSeconds();
@@ -162,10 +247,7 @@ void Game::Run()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Delete))
-            {
-                return;
-            }
+            gui.handleEvent(event);
             
             switch (event.type)
             {
@@ -173,10 +255,10 @@ void Game::Run()
                 window.close();
                 break;
             case sf::Event::GainedFocus:
-                input.canProcessInputs = true;
+                input.focussed = true;
                 break;
             case sf::Event::LostFocus:
-                input.canProcessInputs = false;
+                input.focussed = false;
                 break;
             default: 
                 break;
@@ -189,10 +271,20 @@ void Game::Run()
         collisionSystem.UpdateCollisions();
         collisionSystem.CheckCollision();
         renderSystem.Render(window);
+
+        gui.draw();
         
         window.display();
-    }
-    return;
 
+        switch(gameState)
+        {
+            case GameState::Restart:
+                shouldRun = true;
+                break;
+            case GameState::Quit:
+                shouldRun = false;
+                break;
+        }
 #pragma endregion GameLoop
+    }
 }

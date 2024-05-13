@@ -1,6 +1,12 @@
 ﻿#pragma once
 #include <SFML/Graphics/RenderWindow.hpp>
+
+#include <TGUI/TGUI.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
+
 #include "Collision/Screenbounds.h"
+#include "Systems/Input.h"
+#include "Systems/SpriteLoader.h"
 
 /* Instead of initializing our entire game inside the main
  * We create it inside a method in this class. where we can recreate our entire game multiple times
@@ -16,7 +22,13 @@ public:
     
     void Run();
 
+    bool shouldRun = true;
 private:
     sf::RenderWindow window;
+    
+    SpriteLoader spriteLoader;
+    Input input;
     Screenbounds screenbounds;
+
+    
 };

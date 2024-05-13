@@ -55,7 +55,11 @@ public:
 	void Update(float deltaTime) override;
 	
 	void AddDrunkenness(float strength);
-	
+
+	bool canCheckDrunkenness = false;
+	bool canMove = false;
+
+	Event<float> drunkennessUpdated; //better to have a OnValueChanged class that uses event to communicate.
 	Event<> onSober; //fires once drunkenness hits minDrunkenness, acts as lose condition
 	sf::Vector2f prevPosition;
 	

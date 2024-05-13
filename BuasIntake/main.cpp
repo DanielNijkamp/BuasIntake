@@ -28,10 +28,11 @@
 /*TODO:
  *REFACTORING:
        Fix that everything freezes when losing including player.
+       game loop thing inside game class?
  *     check release compilation LNKR errors.
  * =======================================================================================
- *GAMEPLAY:
- *
+ *UI:
+ *     
  *     Drunkenness UI
  *     Lose + Win UI.
  *     Movement progression UI. 0 to 100km for example?
@@ -40,9 +41,11 @@
 int main()
 {
     Game game(500, 800);
-    game.Run();
 
-    game.Run();
+    while (game.shouldRun)
+    {
+      game.Run();
+    }
     return 0;
 }
 

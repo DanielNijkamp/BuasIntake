@@ -3,10 +3,20 @@
 void Player::Update(float deltaTime)
 {
     velocity = (velocity < 0.01 && velocity > -0.01) ? velocity = 0 : velocity *= 0.90f;
-    
-    Move(deltaTime);
-    Rotate(deltaTime);
+
+    if (canMove)
+    {
+        Move(deltaTime);
+        Rotate(deltaTime);
+    }
     Deaccelerate();
+    
+    if (canCheckDrunkenness)
+    {
+        if (drunkenness == minDrunkenness) {
+            onSober.Fire();
+        }
+    }
 }
 
 
@@ -38,10 +48,7 @@ void Player::Move(float deltaTime)
 {
     float drunkenEffect = sin(drunkenness) * swerveStrength; 
     drunkenness = std::max(drunkenness - deltaTime * soberStep, 0.0f);
-    
-    if (drunkenness == minDrunkenness) {
-        onSober.Fire();
-    }
+    drunkennessUpdated.Fire(drunkenness);
     
     float positionX = position.x + velocity * deltaTime + drunkenEffect;
     UpdatePositions(sf::Vector2f(positionX, position.y));

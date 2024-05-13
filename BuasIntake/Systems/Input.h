@@ -11,7 +11,9 @@
 class Input final
 {
 public:
-    bool canProcessInputs = true;
+    bool focussed = true;;
+    bool canProcessInputs = false;
+    
     using Key = sf::Keyboard::Key;
 
     //we could also implement a method to act similarly to onButtonDown where the event only fires once and not continuously

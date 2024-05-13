@@ -4,6 +4,9 @@ void FixedUpdateSystem::Update(float deltaTime) const
 {
     for (const auto& updatable : updatables)
     {
-        updatable->Update(deltaTime);
+        if (updatable->canUpdate)
+        {
+            updatable->Update(deltaTime);
+        }
     }
 }
