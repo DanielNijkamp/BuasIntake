@@ -70,7 +70,7 @@ void Game::Run()
         sf::Vector2f(screenbounds.width / 2, 600),
         acceleration, 500, maxAcceleration, 100, 60,
         50,0,100,
-        6, 5, 1);
+        6, 7.5, 1);
 
 
 #pragma endregion Player

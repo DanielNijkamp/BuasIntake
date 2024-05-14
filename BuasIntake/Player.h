@@ -80,7 +80,7 @@ private:
 	const float maxDrunkenness; //any strength added by bottles will be clamped by this value
 	
 	const float swerveStrength; //how much the player will swerve left and right
-	const float soberStep; //by how much reduce drunkenness each step
+	const float soberStep; //by how much reduce drunkenness each update step
 	const float swerveResistance; //how much resistance the player's movement has against the swerving
 	
 	//floats used for movement
