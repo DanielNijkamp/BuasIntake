@@ -34,7 +34,7 @@ int main()
 
     while (game.shouldRun)
     {
-      game.Run();
+        game.Run();
     }
     return 0;
 }

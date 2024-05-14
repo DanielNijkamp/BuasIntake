@@ -2,8 +2,10 @@
 
 #include <iostream>
 #include <memory>
+#include <TGUI/TGUI.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
 
-#include "Player.h"
+
 #include "BehaviourSystems/CollisionSystem.h"
 #include "BehaviourSystems/FixedUpdateSystem.h"
 #include "BehaviourSystems/RenderSystem.h"

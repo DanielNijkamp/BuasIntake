@@ -1,12 +1,14 @@
-=================================== Game idea ===================================
+=================================== Game idea & Game loop ===================================
 
 The game is about drunk driving.
 
 You as the player need to drive a certain distance while staying drunk, 
 on the way you will encounter obstacles that you must avoid.
 To stay drunk you should pick up alcohol bottles that spawn on the road.
+To win you have to stay drunk and not get sober.
 
 Being drunk also impacts your driving skills.
+
 
 =================================== Controls ===================================
 

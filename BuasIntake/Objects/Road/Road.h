@@ -1,4 +1,6 @@
 ﻿#pragma once
+
+
 #include <SFML/Graphics/Sprite.hpp>
 
 #include "../../Behaviour/Renderable.h"
