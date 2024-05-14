@@ -32,11 +32,19 @@ void Player::AddDrunkenness(float strength)
 void Player::Accelerate(const float step) const
 {
     acceleration = std::min(acceleration + step, maxAcceleration);
+    if (canIncreaseDistance)
+    {
+        movementUpdated.Fire(acceleration);
+    }
 }
 
 void Player::Deaccelerate() const
 {
     acceleration = std::max(acceleration - accelerationStep / 2, minAcceleration);
+    if (canIncreaseDistance)
+    {
+        movementUpdated.Fire(acceleration);
+    }
 }
 
 void Player::Steer(float direction)

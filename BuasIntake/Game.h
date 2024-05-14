@@ -25,10 +25,5 @@ public:
     bool shouldRun = true;
 private:
     sf::RenderWindow window;
-    
-    SpriteLoader spriteLoader;
-    Input input;
     Screenbounds screenbounds;
-
-    
 };

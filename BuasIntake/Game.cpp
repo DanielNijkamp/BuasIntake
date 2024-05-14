@@ -12,15 +12,14 @@
 #include "Objects/Spawners/Bottle/Bottle.h"
 #include "Objects/Spawners/Bottle/BottleSpawner.h"
 #include "Objects/Spawners/Car/CarSpawner.h"
+#include "Systems/DistanceManager.h"
 #include "Systems/Input.h"
 #include "Systems/SpriteLoader.h"
 
 enum class GameState { Running, Restart, Quit};
 
 Game::Game(unsigned int windowWidth, unsigned int windowHeight) :
-    window(sf::VideoMode(windowWidth, windowHeight), "Fun Driving Sim",
-           sf::Style::Close),
-    spriteLoader("./Assets/"),
+    window(sf::VideoMode(windowWidth, windowHeight), "Fun Driving Sim", sf::Style::Close),
     screenbounds(windowWidth, windowHeight)
 {
     window.setFramerateLimit(60); //TODO: check if uncapping doesnt break systems
@@ -42,6 +41,9 @@ void Game::Run()
     gui.setWindow(window);
     GameState gameState = GameState::Running;
 
+    SpriteLoader spriteLoader("./Assets/");
+    Input input;
+
 #pragma endregion Init
     
 #pragma region ScrollSystem
@@ -62,10 +64,11 @@ void Game::Run()
 #pragma region Player
     
     auto carSprite = spriteLoader.LoadSprite("PlayerCar.png");
-    
+
+    const float maxAcceleration = 1500;
     auto player = std::make_shared<Player>(carSprite, input,
         sf::Vector2f(screenbounds.width / 2, 600),
-        acceleration, 500, 1500, 100, 60,
+        acceleration, 500, maxAcceleration, 100, 60,
         50,0,100,
         6, 5, 1);
 
@@ -142,6 +145,8 @@ void Game::Run()
     const RenderSystem renderSystem({road1, road2, road3, player, leftBarrier, rightBarrier, car1, car2, car3, bottle1, bottle2, bottle3});
     const FixedUpdateSystem fixedUpdateSystem({roadSystem, carSpawner, bottleSpawner, player});
     const CollisionSystem collisionSystem({leftBarrier, rightBarrier, car1, car2, car3, bottle1, bottle2, bottle3},screenbounds, player);
+    DistanceManager distanceManager(maxAcceleration * 2500);
+    
 
 #pragma endregion Systems
 
@@ -180,6 +185,7 @@ void Game::Run()
         
         player->canUpdate = true;
         player->canMove = true;
+        player->canIncreaseDistance = true;
         player->canCheckDrunkenness = true;
         
         bottleSpawner->canUpdate = true;
@@ -190,14 +196,19 @@ void Game::Run()
     });
 
     auto restartButton = deathScreen->get<tgui::Button>("Restart Button");
-    auto quitButton = deathScreen->get<tgui::Button>("Quit Button");
+    auto quitButton1 = deathScreen->get<tgui::Button>("Quit Button");
+    auto quitButton2 = winScreen->get<tgui::Button>("Quit Button");
     
     restartButton->onClick([&]
     {
         gameState = GameState::Restart;
     });
     
-    quitButton->onClick([&]
+    quitButton1->onClick([&]
+    {
+        gameState = GameState::Quit;
+    });
+    quitButton2->onClick([&]
     {
         gameState = GameState::Quit;
     });
@@ -218,9 +229,28 @@ void Game::Run()
         canScroll = false;
         input.canProcessInputs = false;
         player->canMove = false;
+        player->canIncreaseDistance = false;
         player->canCheckDrunkenness = false;
         deathScreen->setVisible(true);
         hud->setVisible(false);
+    });
+
+    auto distanceBar = gui.get<tgui::ProgressBar>("DistanceBar");
+    distanceBar->setMaximum(distanceManager.GetMaxDistance());
+    
+    player->movementUpdated.Subscribe([&] (float amount)
+    {
+        distanceBar->setValue(distanceManager.Increment(amount));
+    });
+    distanceManager.onEndReached.Subscribe([&]
+    {
+        canScroll = false;
+        input.canProcessInputs = false;
+        player->canMove = false;
+        player->canIncreaseDistance = false;
+        player->canCheckDrunkenness = false;
+        hud->setVisible(false);
+        winScreen->setVisible(true);
     });
     
     carSpawner->onCollision.Subscribe([&]
@@ -228,6 +258,7 @@ void Game::Run()
         canScroll = false;
         input.canProcessInputs = false;
         player->canMove = false;
+        player->canIncreaseDistance = false;
         player->canCheckDrunkenness = false;
         deathScreen->setVisible(true);
         hud->setVisible(false);
@@ -239,7 +270,17 @@ void Game::Run()
 
     sf::Clock clock;
     
-    while (window.isOpen() && gameState == GameState::Running){
+    while (window.isOpen())
+    {
+        switch(gameState)
+        {
+        case GameState::Restart:
+            shouldRun = true;
+            return;
+        case GameState::Quit:
+            shouldRun = false;
+            return;
+        }
 
         sf::Time elapsed = clock.restart();
         float deltaTime = elapsed.asSeconds();
@@ -253,7 +294,8 @@ void Game::Run()
             {
             case sf::Event::Closed:
                 window.close();
-                break;
+                shouldRun = false;
+                return;
             case sf::Event::GainedFocus:
                 input.focussed = true;
                 break;
@@ -265,26 +307,18 @@ void Game::Run()
             }
         }
         window.clear();
+
+        distanceManager.CheckDistance();
         
         input.ProcessInputs();
         fixedUpdateSystem.Update(deltaTime);
         collisionSystem.UpdateCollisions();
         collisionSystem.CheckCollision();
         renderSystem.Render(window);
-
+        
         gui.draw();
         
         window.display();
-
-        switch(gameState)
-        {
-            case GameState::Restart:
-                shouldRun = true;
-                break;
-            case GameState::Quit:
-                shouldRun = false;
-                break;
-        }
-#pragma endregion GameLoop
     }
+    #pragma endregion GameLoop
 }

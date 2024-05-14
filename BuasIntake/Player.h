@@ -58,7 +58,9 @@ public:
 
 	bool canCheckDrunkenness = false;
 	bool canMove = false;
+	bool canIncreaseDistance = false;
 
+	Event<float> movementUpdated;
 	Event<float> drunkennessUpdated; //better to have a OnValueChanged class that uses event to communicate.
 	Event<> onSober; //fires once drunkenness hits minDrunkenness, acts as lose condition
 	sf::Vector2f prevPosition;

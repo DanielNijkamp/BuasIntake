@@ -25,18 +25,8 @@
  * CollisionSystem.cpp
  */
 
-/*TODO:
- *REFACTORING:
-       Fix that everything freezes when losing including player.
-       game loop thing inside game class?
- *     check release compilation LNKR errors.
- * =======================================================================================
- *UI:
- *     
- *     Drunkenness UI
- *     Lose + Win UI.
- *     Movement progression UI. 0 to 100km for example?
-*/
+//TODO: check release compilation LNKR errors.
+
 
 int main()
 {
