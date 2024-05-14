@@ -60,8 +60,11 @@ public:
 	bool canMove = false;
 	bool canIncreaseDistance = false;
 
-	Event<float> movementUpdated;
-	Event<float> drunkennessUpdated; //better to have a OnValueChanged class that uses event to communicate.
+	//events to update UI or communicate with other systems.
+	//better to have a OnValueChanged class that will fire a event when the value is changed
+	Event<float> movementUpdated; 
+	Event<float> drunkennessUpdated;
+	
 	Event<> onSober; //fires once drunkenness hits minDrunkenness, acts as lose condition
 	sf::Vector2f prevPosition;
 	

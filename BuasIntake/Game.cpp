@@ -151,7 +151,8 @@ void Game::Run()
 #pragma endregion Systems
 
 #pragma region UI
-    
+
+#pragma region Creation
     tgui::Theme::setDefault("./Assets/Themes/TransparentGrey.txt");
 
     auto mainMenu = tgui::Panel::create();
@@ -174,6 +175,13 @@ void Game::Run()
     gui.add(winScreen);
     gui.add(hud);
 
+    deathScreen->setVisible(false);
+    winScreen->setVisible(false);
+    hud->setVisible(false);
+
+#pragma endregion Creation
+
+#pragma region Widget Creation and binding
     roadSystem->canUpdate = true;
     player->canUpdate = true;
 
@@ -219,10 +227,6 @@ void Game::Run()
     {
        drunkennessBar->setValue(drunkenness);
     });
-    
-    deathScreen->setVisible(false);
-    winScreen->setVisible(false);
-    hud->setVisible(false);
 
     player->onSober.Subscribe( [&]
     {
@@ -263,6 +267,8 @@ void Game::Run()
         deathScreen->setVisible(true);
         hud->setVisible(false);
     });
+
+#pragma endregion Widget Creation and binding
 
 #pragma endregion UI
 

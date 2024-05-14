@@ -14,7 +14,7 @@ public:
     Event<> onEndReached;
 
 private:
-    bool hasFired;
+    bool hasFired = false;
     float totalDistance = 0.0f;
     const float maxDistance;
 };

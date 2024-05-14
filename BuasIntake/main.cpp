@@ -7,7 +7,7 @@
  * We initialize all dependencies and all classes directly inside the main.
  * All classes are designed to be left alone after creation, most values passed are immutable.
  * This approach saves us from having to deal with memory management/creating and deleting objects.
- * In this way i kind of cheated by not having to deal with some annoying parts.
+ * This is most definitely not recommended with bigger project only for small project like this one.
  *
  * Some classes use a reference to a float to write or read to it which is also initialized inside the main
  * Game loop stuff like checking when the player is dead is signaled to other classes via custom event class.
