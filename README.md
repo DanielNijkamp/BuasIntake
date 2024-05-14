@@ -19,6 +19,8 @@ Being drunk also impacts your driving skills.
 
 IDE: Jetbrains Rider + Resharper extension for C++ & C#
 
+UI library: [TGUI](https://tgui.eu/)
+
 Jetbrains AI assistant.
 
 Internet sites:

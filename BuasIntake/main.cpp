@@ -25,9 +25,6 @@
  * CollisionSystem.cpp
  */
 
-//TODO: check release compilation LNKR errors.
-
-
 int main()
 {
     Game game(500, 800);
