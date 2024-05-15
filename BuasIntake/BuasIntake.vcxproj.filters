@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Behaviour">
+      <UniqueIdentifier>{860a1817-3ad6-448d-a12b-13e0ece1f2e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BehaviourSystems">
+      <UniqueIdentifier>{35afd33b-943b-4215-84b0-6d9e3d7b0581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BehaviourSystems">
+      <UniqueIdentifier>{a911f75f-7193-4543-801a-ced3f9f04050}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Collision">
+      <UniqueIdentifier>{044f1919-c828-462a-9929-2d369037fa60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collision">
+      <UniqueIdentifier>{1108642b-070f-4404-a235-d76d095638c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{b762d8ec-3a58-47d6-a252-c9e81e37861c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Road">
+      <UniqueIdentifier>{b740f30f-e140-4bd2-bda9-e137d7178f92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Spawners">
+      <UniqueIdentifier>{4f2b0612-553a-40d9-9e66-bc93a49da2a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Spawners\Bottle">
+      <UniqueIdentifier>{a1314b20-c1b7-40a8-9b5b-73255c25a167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Spawners\Car">
+      <UniqueIdentifier>{f90cadba-9aee-4321-b80b-a862e97a0674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Systems">
+      <UniqueIdentifier>{4c881016-7d7b-4e6e-9961-f86e8b1d0bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{dcb2fe28-1a36-48a8-bc9e-a1f78ec1f2fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Road">
+      <UniqueIdentifier>{ee26a796-a585-42d1-bbbb-a72bb94b2a98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Spawners">
+      <UniqueIdentifier>{7111d97c-dbe1-4b94-971c-c9babdbccaf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Spawners\Bottle">
+      <UniqueIdentifier>{e4d1dc1b-2d63-4c59-a672-2843565d3024}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Spawners\Car">
+      <UniqueIdentifier>{947adcc3-8f22-4c12-866d-f9b7bf96fd23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Systems">
+      <UniqueIdentifier>{718f6b3a-d220-4b38-9c1b-0297e38ec5f3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour\Collidable.h">
+      <Filter>Header Files\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour\Renderable.h">
+      <Filter>Header Files\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour\Transformable.h">
+      <Filter>Header Files\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour\FixedUpdatable.h">
+      <Filter>Header Files\Behaviour</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourSystems\FixedUpdateSystem.h">
+      <Filter>Header Files\BehaviourSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourSystems\CollisionSystem.h">
+      <Filter>Header Files\BehaviourSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourSystems\RenderSystem.h">
+      <Filter>Header Files\BehaviourSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\AABB.h">
+      <Filter>Header Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\Screenbounds.h">
+      <Filter>Header Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Barrier.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Road\Road.h">
+      <Filter>Header Files\Objects\Road</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Road\RoadSystem.h">
+      <Filter>Header Files\Objects\Road</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Spawners\Spawner.h">
+      <Filter>Header Files\Objects\Spawners</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Spawners\Bottle\Bottle.h">
+      <Filter>Header Files\Objects\Spawners\Bottle</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Spawners\Bottle\BottleSpawner.h">
+      <Filter>Header Files\Objects\Spawners\Bottle</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Spawners\Car\CarSpawner.h">
+      <Filter>Header Files\Objects\Spawners\Car</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Spawners\Car\Car.h">
+      <Filter>Header Files\Objects\Spawners\Car</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\DistanceManager.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Event.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Pool.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Input.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\SpriteLoader.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\ScrollSystem.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourSystems\CollisionSystem.cpp">
+      <Filter>Source Files\BehaviourSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourSystems\FixedUpdateSystem.cpp">
+      <Filter>Source Files\BehaviourSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourSystems\RenderSystem.cpp">
+      <Filter>Source Files\BehaviourSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\AABB.cpp">
+      <Filter>Source Files\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Barrier.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Road\RoadSystem.cpp">
+      <Filter>Source Files\Objects\Road</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Road\Road.cpp">
+      <Filter>Source Files\Objects\Road</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Spawners\Bottle\Bottle.cpp">
+      <Filter>Source Files\Objects\Spawners\Bottle</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Spawners\Bottle\BottleSpawner.cpp">
+      <Filter>Source Files\Objects\Spawners\Bottle</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Spawners\Car\Car.cpp">
+      <Filter>Source Files\Objects\Spawners\Car</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Spawners\Car\CarSpawner.cpp">
+      <Filter>Source Files\Objects\Spawners\Car</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\DistanceManager.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\SpriteLoader.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Input.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
