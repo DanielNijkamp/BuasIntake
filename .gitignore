@@ -98,9 +98,6 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
-# Chutzpah Test files
-_Chutzpah*
-
 # Visual C++ cache files
 ipch/
 *.aps
@@ -383,8 +380,6 @@ FodyWeavers.xsd
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
-*.vcxproj
-*.vcxproj.filters
 
 # Local History for Visual Studio Code
 .history/
